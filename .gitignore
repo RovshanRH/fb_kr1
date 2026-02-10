@@ -22,10 +22,6 @@ logs/
 *.swo
 *~
 
-# Системные файлы
-.DS_Store
-Thumbs.db
-
 # Сборка
 dist/
 build/
