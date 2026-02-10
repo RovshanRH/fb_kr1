@@ -9,6 +9,14 @@ let items = [
 ]
 
 app.use(express.json())
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} ${req.method} ${req.url}`);
+    next();
+});
+app.get('/'
+, (req, res) => {
+res.send('Главная страница');
+});
 
 //CRUD
 //Create
@@ -20,6 +28,7 @@ app.post('/items', (req, res) => {
         price
     }
     items.push(newItem)
+    res.status(201).json(newItem)
 })
 
 //Read
@@ -32,16 +41,17 @@ app.patch('/items/:id', (req, res) => {
     const item = items.find(u => u.id == req.params.id);
     const {name, price} = req.body;
 
-    if (!name) item.name = name;
-    if (!price) item.price = price;
+    if (name) item.name = name;
+    if (price) item.price = price;
 
     res.json(item)
 })
 
 //Delete
 app.delete('/items/:id', (res, req) => {
-    const item = items.find(u => u.id == req.params.id);
-    items.reduce(item);
+    const itemIndex = items.findIndex(u => u.id == req.params.id);
+    items.splice(itemIndex, 1);
+    res.json({message: "Item deleted"})
 })
 app.listen(port, () => {
     console.log(`Сервер запущен на http://localhost:${port}`);
