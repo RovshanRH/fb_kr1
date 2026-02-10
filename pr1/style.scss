@@ -2,6 +2,9 @@ $primary: #ffffff;
 $font: #131313;
 $black: rgba(0, 0, 0, 0.1);
 
+@mixin card__border($color) {
+  border: 2px solid $color;
+}
 // Миксин в SCSS
 @mixin card-content($color) {
   width: 225px;
@@ -9,6 +12,8 @@ $black: rgba(0, 0, 0, 0.1);
   box-shadow: 1px 2px 4px $black;
   background-color: $color;
   display: flex;
+  justify-content: center;
+  // align-items: center;
   flex-direction: column; 
   border-radius: 4px;
   transition: 0.2s;
@@ -18,15 +23,22 @@ $black: rgba(0, 0, 0, 0.1);
 
 .card {
   @include card-content($primary);
+  @include card__border($font);
+  // overflow: hidden;
+  position: relative;
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 4px 8px 16px $black;
+  }
+  img {
+    transform: scale(1.05);
+  }
 }
 
-.card__border {
-  border: 2px solid $black;
-}
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 300px);
+  grid-template-columns: repeat(auto-fill, 225px);
   width: 100%;
   justify-content: center;
   justify-items: center;
@@ -39,31 +51,42 @@ $black: rgba(0, 0, 0, 0.1);
   margin-bottom: 5px;
 }
 
-.photo {
+.top-card__photo {
   display: block;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  // top: 0;
+  // left: 0;
+  width: max-content;
+  height: max-content;
+  margin-top: 10px;
 }
 
-.photo > img {
-  width: 100%;
-  height: 100%;
+img {
+  width: 10%;
+  height: 10%;
   object-fit: contain;
   transition: 0.2s;
+  display: block;
+
+  // position: static;
 }
 
 .bottom {
-  margin-top: 5px;
-  gap: 5px;
-  .label {
-    font-weight: lighter;
+  padding: 10px;
+  flex-grow: 1; // чтобы контент занимал доступное пространство
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+  .bottom-card__label {
+    font-weight: 400; // вместо lighter (лучшая поддержка)
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.4;
   }
-  .price {
-    margin-top: 5px;
-    font-weight: bold;
-    text-align: center;
+  
+  .bottom-card__price {
+    font-size: 18px;
+    color: #ff6b00; // или любой другой цвет
+    margin-top: auto;
   }
-
 }
